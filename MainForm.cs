@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Newtonsoft.Json;
 using Airtightness.Core.Presenters;
 using Airtightness.Core.Interfaces;
 using Airtightness.Core.Enums;
@@ -22,6 +22,10 @@ namespace TanGe
         // ====== 字段：Presenter/硬件/MES/调试轮询 ======
         private WorkstationPresenter _wsPresenter1;
         private WorkstationPresenter _wsPresenter2;
+        // 连接状态（懒连接标记）
+        private bool _ws1Connected = false;
+        private bool _ws2Connected = false;
+
 
         private IInstrument _debugInstrument; // 调试页专用实例（与你的生产实例可分离）
         private CancellationTokenSource _debugPollCts;
@@ -125,8 +129,8 @@ namespace TanGe
 
             // 初始化设备连接（连接字符串可来自 Settings 页）
             // 如果你在 Settings 保存了连接参数，可替换如下 "127.0.0.1:502"
-            _ = _wsPresenter1.InitializeAsync("127.0.0.1:502");
-            _ = _wsPresenter2.InitializeAsync("127.0.0.1:502");
+            //_ = _wsPresenter1.InitializeAsync("127.0.0.1:502");
+            //_ = _wsPresenter2.InitializeAsync("127.0.0.1:502");
 
             // 设置工位标题
             workstationView1.SetStationName("工位1");
@@ -259,8 +263,82 @@ namespace TanGe
         }
 
         // ========== 软件设置页绑定 ==========
+        private IInstrument BuildInstrument(string type)
+        {
+            if (string.Equals(type, "RTU", StringComparison.OrdinalIgnoreCase))
+                return (IInstrument)new Airtightness.Hardware.ModbusRtuInstrument();
+            else
+                return (IInstrument)new Airtightness.Hardware.ModbusInstrument();
+        }
         private void BindSettingsPage()
         {
+            // 工位1连接按钮
+            btnTestStation1Conn.Click += async (s, e) =>
+            {
+                try
+                {
+                    if (_ws1Connected)
+                    {
+                        MessageBox.Show("工位1已连接");
+                        return;
+                    }
+
+                    string type = cmbStation1Type.Text;
+                    string connStr = txtStation1Conn.Text.Trim();
+
+                    if (string.IsNullOrWhiteSpace(connStr))
+                    {
+                        MessageBox.Show("请输入工位1连接参数");
+                        return;
+                    }
+
+                    var instrument1 = BuildInstrument(type);
+                    _wsPresenter1 = new WorkstationPresenter("工位1", instrument1, new Airtightness.MES.MesService());
+
+                    await _wsPresenter1.InitializeAsync(connStr);
+                    _ws1Connected = true;
+
+                    MessageBox.Show("工位1连接成功");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("工位1连接失败: " + ex.Message);
+                }
+            };
+
+            // 工位2连接按钮
+            btnTestStation2Conn.Click += async (s, e) =>
+            {
+                try
+                {
+                    if (_ws2Connected)
+                    {
+                        MessageBox.Show("工位2已连接");
+                        return;
+                    }
+
+                    string type = cmbStation2Type.Text;
+                    string connStr = txtStation2Conn.Text.Trim();
+
+                    if (string.IsNullOrWhiteSpace(connStr))
+                    {
+                        MessageBox.Show("请输入工位2连接参数");
+                        return;
+                    }
+
+                    var instrument2 = BuildInstrument(type);
+                    _wsPresenter2 = new WorkstationPresenter("工位2", instrument2, new Airtightness.MES.MesService());
+
+                    await _wsPresenter2.InitializeAsync(connStr);
+                    _ws2Connected = true;
+
+                    MessageBox.Show("工位2连接成功");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("工位2连接失败: " + ex.Message);
+                }
+            };
             // 加载配置文件
             LoadConfigToUI();
 

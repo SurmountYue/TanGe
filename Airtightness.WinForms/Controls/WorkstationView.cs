@@ -171,7 +171,16 @@ namespace Airtightness.WinForms.Controls
         {
             try { ClearStatsRequested?.Invoke(this, EventArgs.Empty); } catch { }
         }
-
+        public void AppendLog(string line)
+        {
+            if (lstLog.InvokeRequired)
+            {
+                lstLog.BeginInvoke(new Action(() => AppendLog(line)));
+                return;
+            }
+            lstLog.Items.Add(line);
+            lstLog.TopIndex = Math.Max(0, lstLog.Items.Count - 1); // 自动滚动到底
+        }
 
         #endregion
 
