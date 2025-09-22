@@ -1,0 +1,61 @@
+# Visual Studio / C# (.NET)
+
+## 忽略用户特定的IDE设置
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+## 忽略编译输出和临时文件
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
+[Aa]rm/
+[Aa]rm64/
+x64/
+x86/
+build/
+Build/
+bld/
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+*.publish.bin
+*.pdb
+*.dll
+*.exe
+*.cache
+*.tlog
+
+## 忽略 NuGet 包文件夹 (对于旧版 packages.config)
+# NuGet 会根据项目文件自动还原这些包
+packages/
+*.nupkg
+project.lock.json
+project.assets.json
+
+## 忽略发布文件夹
+publish/
+app.publish/
+
+## 其它忽略项
+*.log
+*.tmp
+*.bak
+_UpgradeReport_Files/
+UpgradeLog*.XML
+*~
+
+# 忽略操作系统生成的文件
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.lnk
