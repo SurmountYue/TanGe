@@ -1,4 +1,5 @@
 ﻿// 文件位置: Airtightness.Hardware/ModbusRtuInstrument.cs
+using Airtightness.Core.Enums;
 using Airtightness.Core.Interfaces;
 using NModbus;
 using System;
@@ -25,6 +26,11 @@ namespace Airtightness.Hardware
         ///* 对于RTU，我们期望的 connectionString 格式为 "COM3"，或者更详细的 "COM3:9600:8:N:1"
         ///* 为了简单起见，我们这里只处理简单格式，并使用默认的串口参数。
         /// </summary>
+        /// <summary>
+        /// 实现 IInstrument 定义的通信日志事件
+        /// 外部（Presenter）可以订阅这个事件来获取发送/接收的原始信息
+        /// </summary>
+        public event Action<LogType, string> CommunicationLog;
         public async Task ConnectAsync(string connectionString)
         {
             try

@@ -156,10 +156,22 @@ namespace Airtightness.WinForms.Controls
         #endregion
 
         #region ==== 内部事件处理 ====
+        // 绑定按钮把内部点击转成对外事件（供 MainForm 订阅）
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            try { StartRequested?.Invoke(this, EventArgs.Empty); } catch { /* 避免未订阅异常 */ }
+        }
 
-        private void btnStart_Click(object sender, EventArgs e) => StartRequested?.Invoke(this, EventArgs.Empty);
-        private void btnStop_Click(object sender, EventArgs e) => StopRequested?.Invoke(this, EventArgs.Empty);
-        private void btnClearStats_Click(object sender, EventArgs e) => ClearStatsRequested?.Invoke(this, EventArgs.Empty);
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            try { StopRequested?.Invoke(this, EventArgs.Empty); } catch { }
+        }
+
+        private void btnClearStats_Click(object sender, EventArgs e)
+        {
+            try { ClearStatsRequested?.Invoke(this, EventArgs.Empty); } catch { }
+        }
+
 
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using Airtightness.Core.Interfaces;
+﻿using Airtightness.Core.Enums;
+using Airtightness.Core.Interfaces;
 
 using NModbus;  // 确保安装 NModbus4 包
 using System;
@@ -21,6 +22,11 @@ namespace Airtightness.Hardware
         private const ushort START_STOP_COIL = 0;
         private const ushort STATUS_REGISTER = 0;
         private const ushort PRESSURE_REGISTER_START = 100;
+        /// <summary>
+        /// 实现 IInstrument 定义的通信日志事件
+        /// 外部（Presenter）可以订阅这个事件来获取发送/接收的原始信息
+        /// </summary>
+        public event Action<LogType, string> CommunicationLog;
 
         public async Task ConnectAsync(string connectionString)
         {

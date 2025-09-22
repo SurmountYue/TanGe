@@ -87,6 +87,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Airtightness.Core\Airtightness.Core.csproj">
+      <Project>{e32975c6-f64c-46d8-809f-7488bdd3154b}</Project>
+      <Name>Airtightness.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="Airtightness.Hardware\Airtightness.Hardware.csproj">
+      <Project>{994795ca-5ad4-43e7-82d9-8fd204142760}</Project>
+      <Name>Airtightness.Hardware</Name>
+    </ProjectReference>
+    <ProjectReference Include="Airtightness.MES\Airtightness.MES.csproj">
+      <Project>{c5e954e6-5ff1-42cd-8694-8e8977badfee}</Project>
+      <Name>Airtightness.MES</Name>
+    </ProjectReference>
     <ProjectReference Include="Airtightness.WinForms\Airtightness.WinForms.csproj">
       <Project>{A49EED3A-7C86-4889-B166-E22AD3B1381D}</Project>
       <Name>Airtightness.WinForms</Name>
