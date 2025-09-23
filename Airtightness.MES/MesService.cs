@@ -16,18 +16,22 @@ namespace Airtightness.MES
     public class MesService : IMesService
     {
         // 最佳实践：HttpClient 在整个应用程序中应该是静态且共享的，以避免套接字耗尽。
-        private static readonly HttpClient client = new HttpClient();
+        private  readonly HttpClient client = new HttpClient();
         public event Action<string> DebugLog;
 
         // MES 服务器的基础地址。在真实项目中，这个地址应该来自配置文件而不是硬编码。
         // 我们暂时使用之前在 Postman 中创建的模拟服务器地址。
-        private readonly string _baseUrl;
+        private string  _baseUrl;
 
         // 运行时传入 URL
         public MesService(string baseUrl)
         {
             _baseUrl = baseUrl?.TrimEnd('/') ?? string.Empty;
-            client.Timeout = TimeSpan.FromSeconds(10);
+            
+            client = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(10)
+            };
         }
         public MesService()
         {
@@ -41,6 +45,7 @@ namespace Airtightness.MES
         {
             // 1. 准备请求的完整URL和请求体(payload)
             string requestUri = $"{_baseUrl}/WebAPI/Base/CheckSN";
+            DebugLog?.Invoke($"[MES] 校验SN URL: {requestUri}");
             var requestPayload = new SnCheckRequest { SN = sn, WorkStation = workstation };
             // ✅ 新增调试日志
             Console.WriteLine($"[MES] 校验SN URL: {requestUri}");
@@ -103,5 +108,8 @@ namespace Airtightness.MES
                 return new ApiResponse { Result = false, Message = $"调用MES上传结果接口失败: {ex.Message}" };
             }
         }
+       
     }
+
+    
 }

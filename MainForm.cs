@@ -544,8 +544,13 @@ namespace TanGe
                 try
                 {
                     SaveConfig(_config);
+                    var newMesService = new MesService(_config.MesUrl);
+                    
+                    _wsPresenter1.UpdateMesService(newMesService);
+                    _wsPresenter2.UpdateMesService(newMesService);
                     MessageBox.Show("设置已保存");
                     
+
                 }
                 catch (Exception ex)
                 {

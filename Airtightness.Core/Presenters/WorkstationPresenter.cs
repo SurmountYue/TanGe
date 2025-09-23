@@ -14,7 +14,7 @@ namespace Airtightness.Core.Presenters
     {
         // ===== 字段 =====
         private readonly IInstrument _instrument;
-        private readonly IMesService _mesService;
+        private IMesService _mesService;
         private readonly string _stationName;
 
         private WorkstationState _currentState;
@@ -40,6 +40,16 @@ namespace Airtightness.Core.Presenters
         public event Action<string,string> CommStatusChanged;
 
         // ===== 构造函数 =====
+        // 更新 MES 服务引用
+
+        /// <summary>
+        /// 更新 MES 服务引用（用新的 URL 创建的实例）
+        /// </summary>
+        public void UpdateMesService(IMesService mesService)
+        {
+            _mesService = mesService;
+        }
+
         public WorkstationPresenter(string stationName, IInstrument instrument, IMesService mesService)
         {
             _stationName = stationName;
