@@ -84,6 +84,40 @@ namespace Airtightness.Core.Presenters
             // 通知通信状态：已断开（红色）
             CommStatusChanged?.Invoke("设备已断开", "Red");
         }
+        // 请求扫描条码
+        public void RequestBarcodeScan()
+        {
+            // 修改状态为等待条码扫描
+            SetState(WorkstationState.WaitingForBarcode, "请扫描产品条码...");
+        }
+
+        // 处理条码并执行 MES 校验
+        public async Task HandleBarcodeAsync(string barcode)
+        {
+            // 当前状态必须是等待条码扫描，否则不处理
+            if (_currentState != WorkstationState.WaitingForBarcode)
+            {
+                Log($"当前状态为{_currentState}，不处理SN校验");
+                return;
+            }
+
+            // 状态改为正在校验 SN
+            SetState(WorkstationState.CheckingSn, $"正在校验条码：{barcode}");
+
+            // 调用 MES 服务接口进行校验
+            var response = await _mesService.CheckSnAsync(barcode, _stationName);
+
+            if (response.Result)
+            {
+                // 校验成功，工位进入 Ready
+                SetState(WorkstationState.Ready, "条码校验通过，准备测试");
+            }
+            else
+            {
+                // 校验失败，工位回到 Idle
+                SetState(WorkstationState.Idle, $"条码校验失败: {response.Message}");
+            }
+        }
 
         // ===== 开始测试 =====
         public async Task StartTestAsync()

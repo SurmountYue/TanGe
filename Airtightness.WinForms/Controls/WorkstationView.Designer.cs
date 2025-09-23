@@ -58,6 +58,7 @@
             this.txtTotal = new System.Windows.Forms.TextBox();
             this.txtNG = new System.Windows.Forms.TextBox();
             this.txtOK = new System.Windows.Forms.TextBox();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblLeakValueUnit
@@ -142,7 +143,7 @@
             this.txtLeakValue.Margin = new System.Windows.Forms.Padding(4);
             this.txtLeakValue.Name = "txtLeakValue";
             this.txtLeakValue.ReadOnly = true;
-            this.txtLeakValue.Size = new System.Drawing.Size(75, 28);
+            this.txtLeakValue.Size = new System.Drawing.Size(75, 19);
             this.txtLeakValue.TabIndex = 38;
             this.txtLeakValue.Text = "0.0";
             this.txtLeakValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -182,7 +183,7 @@
             this.txtTemperature.Margin = new System.Windows.Forms.Padding(4);
             this.txtTemperature.Name = "txtTemperature";
             this.txtTemperature.ReadOnly = true;
-            this.txtTemperature.Size = new System.Drawing.Size(75, 28);
+            this.txtTemperature.Size = new System.Drawing.Size(75, 19);
             this.txtTemperature.TabIndex = 36;
             this.txtTemperature.Text = "0.0";
             this.txtTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -196,7 +197,7 @@
             this.txtInletPressure.Margin = new System.Windows.Forms.Padding(4);
             this.txtInletPressure.Name = "txtInletPressure";
             this.txtInletPressure.ReadOnly = true;
-            this.txtInletPressure.Size = new System.Drawing.Size(75, 28);
+            this.txtInletPressure.Size = new System.Drawing.Size(75, 19);
             this.txtInletPressure.TabIndex = 34;
             this.txtInletPressure.Text = "0.0";
             this.txtInletPressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -210,7 +211,7 @@
             this.txtAtmPressure.Margin = new System.Windows.Forms.Padding(4);
             this.txtAtmPressure.Name = "txtAtmPressure";
             this.txtAtmPressure.ReadOnly = true;
-            this.txtAtmPressure.Size = new System.Drawing.Size(75, 28);
+            this.txtAtmPressure.Size = new System.Drawing.Size(75, 19);
             this.txtAtmPressure.TabIndex = 32;
             this.txtAtmPressure.Text = "0.0";
             this.txtAtmPressure.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -222,8 +223,9 @@
             this.txtBarcode.Location = new System.Drawing.Point(167, 44);
             this.txtBarcode.Margin = new System.Windows.Forms.Padding(4);
             this.txtBarcode.Name = "txtBarcode";
-            this.txtBarcode.Size = new System.Drawing.Size(533, 35);
+            this.txtBarcode.Size = new System.Drawing.Size(533, 26);
             this.txtBarcode.TabIndex = 30;
+            this.txtBarcode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBarcode_KeyDown);
             // 
             // lblAtmPressure
             // 
@@ -254,10 +256,10 @@
             // lstLog
             // 
             this.lstLog.FormattingEnabled = true;
-            this.lstLog.ItemHeight = 24;
+            this.lstLog.ItemHeight = 17;
             this.lstLog.Location = new System.Drawing.Point(163, 245);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(534, 556);
+            this.lstLog.Size = new System.Drawing.Size(534, 548);
             this.lstLog.TabIndex = 44;
             // 
             // plotYieldChart
@@ -273,7 +275,7 @@
             this.lblCommStatus.BackColor = System.Drawing.Color.Firebrick;
             this.lblCommStatus.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblCommStatus.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblCommStatus.Location = new System.Drawing.Point(-1, 173);
+            this.lblCommStatus.Location = new System.Drawing.Point(-1, 224);
             this.lblCommStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCommStatus.Name = "lblCommStatus";
             this.lblCommStatus.Size = new System.Drawing.Size(160, 40);
@@ -300,7 +302,7 @@
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnStart.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnStart.Location = new System.Drawing.Point(-1, 87);
+            this.btnStart.Location = new System.Drawing.Point(-1, 89);
             this.btnStart.Margin = new System.Windows.Forms.Padding(4);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(160, 40);
@@ -315,7 +317,7 @@
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btnStop.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnStop.Location = new System.Drawing.Point(-1, 130);
+            this.btnStop.Location = new System.Drawing.Point(-1, 134);
             this.btnStop.Margin = new System.Windows.Forms.Padding(4);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(160, 40);
@@ -331,7 +333,7 @@
             this.lblTotal.Location = new System.Drawing.Point(2, 536);
             this.lblTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(66, 25);
+            this.lblTotal.Size = new System.Drawing.Size(44, 17);
             this.lblTotal.TabIndex = 51;
             this.lblTotal.Text = "总产量";
             this.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -343,7 +345,7 @@
             this.lblOK.Location = new System.Drawing.Point(6, 591);
             this.lblOK.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblOK.Name = "lblOK";
-            this.lblOK.Size = new System.Drawing.Size(57, 25);
+            this.lblOK.Size = new System.Drawing.Size(38, 17);
             this.lblOK.TabIndex = 52;
             this.lblOK.Text = "OK数";
             this.lblOK.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -370,7 +372,7 @@
             this.lblNG.Location = new System.Drawing.Point(4, 646);
             this.lblNG.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNG.Name = "lblNG";
-            this.lblNG.Size = new System.Drawing.Size(59, 25);
+            this.lblNG.Size = new System.Drawing.Size(39, 17);
             this.lblNG.TabIndex = 53;
             this.lblNG.Text = "NG数";
             this.lblNG.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -383,7 +385,7 @@
             this.txtYield.Margin = new System.Windows.Forms.Padding(4);
             this.txtYield.Name = "txtYield";
             this.txtYield.ReadOnly = true;
-            this.txtYield.Size = new System.Drawing.Size(93, 31);
+            this.txtYield.Size = new System.Drawing.Size(93, 23);
             this.txtYield.TabIndex = 57;
             this.txtYield.Text = "0.00%";
             this.txtYield.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -395,7 +397,7 @@
             this.lblYield.Location = new System.Drawing.Point(4, 701);
             this.lblYield.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblYield.Name = "lblYield";
-            this.lblYield.Size = new System.Drawing.Size(66, 25);
+            this.lblYield.Size = new System.Drawing.Size(44, 17);
             this.lblYield.TabIndex = 54;
             this.lblYield.Text = "良品率";
             // 
@@ -407,7 +409,7 @@
             this.txtTotal.Margin = new System.Windows.Forms.Padding(4);
             this.txtTotal.Name = "txtTotal";
             this.txtTotal.ReadOnly = true;
-            this.txtTotal.Size = new System.Drawing.Size(93, 31);
+            this.txtTotal.Size = new System.Drawing.Size(93, 23);
             this.txtTotal.TabIndex = 58;
             this.txtTotal.Text = "0";
             this.txtTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -420,7 +422,7 @@
             this.txtNG.Margin = new System.Windows.Forms.Padding(4);
             this.txtNG.Name = "txtNG";
             this.txtNG.ReadOnly = true;
-            this.txtNG.Size = new System.Drawing.Size(93, 31);
+            this.txtNG.Size = new System.Drawing.Size(93, 23);
             this.txtNG.TabIndex = 55;
             this.txtNG.Text = "0";
             this.txtNG.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -433,16 +435,31 @@
             this.txtOK.Margin = new System.Windows.Forms.Padding(4);
             this.txtOK.Name = "txtOK";
             this.txtOK.ReadOnly = true;
-            this.txtOK.Size = new System.Drawing.Size(93, 31);
+            this.txtOK.Size = new System.Drawing.Size(93, 23);
             this.txtOK.TabIndex = 56;
             this.txtOK.Text = "0";
             this.txtOK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnDisconnect
+            // 
+            this.btnDisconnect.BackColor = System.Drawing.Color.Firebrick;
+            this.btnDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDisconnect.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnDisconnect.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.btnDisconnect.Location = new System.Drawing.Point(0, 179);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(160, 40);
+            this.btnDisconnect.TabIndex = 61;
+            this.btnDisconnect.Text = "断开连接";
+            this.btnDisconnect.UseVisualStyleBackColor = false;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // WorkstationView
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.plotYieldChart);
             this.Controls.Add(this.lblCommStatus);
             this.Controls.Add(this.lblBarcode);
@@ -513,5 +530,6 @@
         private System.Windows.Forms.TextBox txtTotal;
         private System.Windows.Forms.TextBox txtNG;
         private System.Windows.Forms.TextBox txtOK;
+        private System.Windows.Forms.Button btnDisconnect;
     }
 }

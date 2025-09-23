@@ -41,6 +41,7 @@ namespace TanGe
 
             // 初始化页面事件绑定
             BindNavigation();
+            BindParamsPage();
             BindSettingsPage();
             BindHistoryPage();
             BindDebugPage();
@@ -85,8 +86,9 @@ namespace TanGe
         // ========== 测试页与Presenter绑定 ==========
         private void BindTestPageAndPresenters()
         {
-            // 这里用配置创建 MES 服务；MesService内部URL默认可改为读取_config.MesUrl
-            var mes = new MesService();
+            // 这里用配置创建 MES 服务；
+            
+            var mes = new MesService(_config.MesUrl); // 从设置读取 URL
 
             // 工位1/工位2 使用 Modbus TCP（如需RTU，根据Settings选择不同实现）
             var instr1 = new ModbusInstrument();
@@ -120,18 +122,39 @@ namespace TanGe
             _wsPresenter2.CommunicationLogGenerated += (type, msg) => AppendGlobalLog($"[{type}] {msg}");
             _wsPresenter2.RealtimeDataUpdated += (leak, press, temp) => workstationView2.UpdateRealtimeData(leak, press, temp);
             _wsPresenter2.StatisticsUpdated += (tot, ok, ng) => workstationView2.UpdateStatistics(tot, ok, ng);
-
+            _wsPresenter2.CommStatusChanged += (txt, colorName) =>
+            {
+                workstationView2.UpdateCommStatus(txt, System.Drawing.Color.FromName(colorName));
+            };
             // WorkstationView 按钮事件 → Presenter
             workstationView1.StartRequested += async (s, e) => await _wsPresenter1.StartTestAsync();
             workstationView1.StopRequested += (s, e) => _wsPresenter1.StopTest();
             workstationView1.ClearStatsRequested += (s, e) => { /* TODO: 若Presenter未提供Reset方法，可在控件内清零 */ };
-
+            workstationView1.DisconnectRequested += (s, e) =>
+            {
+                _wsPresenter1.Disconnect();
+                _ws1Connected = false; // 表示已断开
+            };
+            workstationView1.BarcodeEntered += async (barcode) =>
+            {
+                // 设置为等待条码扫描状态
+                _wsPresenter1.RequestBarcodeScan();
+                // 调用 MES 校验
+                await _wsPresenter1.HandleBarcodeAsync(barcode);
+            };
             workstationView2.StartRequested += async (s, e) => await _wsPresenter2.StartTestAsync();
             workstationView2.StopRequested += (s, e) => _wsPresenter2.StopTest();
             workstationView2.ClearStatsRequested += (s, e) => { /* TODO: 同上 */ };
-            _wsPresenter2.CommStatusChanged += (txt, colorName) =>
+            workstationView2.DisconnectRequested += (s, e) =>
             {
-                workstationView2.UpdateCommStatus(txt, System.Drawing.Color.FromName(colorName));
+                _wsPresenter2.Disconnect();
+                _ws2Connected = false;
+            };
+
+            workstationView2.BarcodeEntered += async (barcode) =>
+            {
+                _wsPresenter2.RequestBarcodeScan();
+                await _wsPresenter2.HandleBarcodeAsync(barcode);
             };
 
             // 初始化设备连接（连接字符串可来自 Settings 页）
@@ -140,8 +163,8 @@ namespace TanGe
             //_ = _wsPresenter2.InitializeAsync("127.0.0.1:502");
 
             // 设置工位标题
-            workstationView1.SetStationName("工位1");
-            workstationView2.SetStationName("工位2");
+            //workstationView1.SetStationName("工位1");
+            //workstationView2.SetStationName("工位2");
         }
 
         private Color StateColor(WorkstationState state)
@@ -168,6 +191,126 @@ namespace TanGe
             richTextBox1.AppendText(line + Environment.NewLine);
             richTextBox1.ScrollToCaret();
         }
+
+        // ========== 仪器参数页绑定 ==========
+        public class RecipeConfig
+        {
+            public string Name { get; set; } = "默认配方";
+            public int InflationTime { get; set; }
+            public int StabilizationTime { get; set; }
+            public int TestTime { get; set; }
+            public int ExhaustTime { get; set; }
+            public double InflationPressure { get; set; }
+            public double InletUpperLimit { get; set; }
+            public double InletLowerLimit { get; set; }
+            public double LeakThreshold { get; set; }
+            public double LeakLowerLimit { get; set; }
+        }
+        private List<RecipeConfig> recipes = new List<RecipeConfig>();
+
+        private void SaveRecipes()
+        {
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(recipes, Newtonsoft.Json.Formatting.Indented);
+            File.WriteAllText(RecipeFilePath, json, Encoding.UTF8);
+        }
+
+        private void LoadRecipes()
+        {
+            if (File.Exists(RecipeFilePath))
+            {
+                var json = File.ReadAllText(RecipeFilePath, Encoding.UTF8);
+                recipes = Newtonsoft.Json.JsonConvert.DeserializeObject<List<RecipeConfig>>(json) ?? new List<RecipeConfig>();
+            }
+            else
+            {
+                recipes = new List<RecipeConfig>();
+            }
+            RefreshRecipeList();
+        }
+
+        private void RefreshRecipeList()
+        {
+            lstRecipes.DataSource = null;
+            lstRecipes.DataSource = recipes;
+            lstRecipes.DisplayMember = "Name";
+        }
+
+        private void BindParamsPage()
+        {
+            // 加载已有配方
+            LoadRecipes();
+
+            // 新建配方
+            btnNewRecipe.Click += (s, e) =>
+            {
+                var name = txtRecipeName.Text.Trim();   // 从界面输入框取
+                if (!string.IsNullOrEmpty(name))
+                {
+                    var recipe = new RecipeConfig { Name = name };
+                    recipes.Add(recipe);
+                    SaveRecipes();
+                    RefreshRecipeList();
+                    MessageBox.Show("新配方已创建");
+                }
+                else
+                {
+                    MessageBox.Show("请输入配方名称");
+                }
+            };
+
+            // 删除配方
+            btnDeleteRecipe.Click += (s, e) =>
+            {
+                if (lstRecipes.SelectedItem is RecipeConfig rc)
+                {
+                    if (MessageBox.Show($"确定删除配方 {rc.Name} ?", "确认", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        recipes.Remove(rc);
+                        SaveRecipes();
+                        RefreshRecipeList();
+                    }
+                }
+            };
+
+            // 保存修改
+            btnSaveChanges.Click += (s, e) =>
+            {
+                if (lstRecipes.SelectedItem is RecipeConfig rc)
+                {
+                    rc.Name = txtRecipeName.Text.Trim();   // 保存名称
+                    rc.InflationTime = (int)numInflationTime.Value;
+                    rc.StabilizationTime = (int)numStabilizationTime.Value;
+                    rc.TestTime = (int)numTestTime.Value;
+                    rc.ExhaustTime = (int)numExhaustTime.Value;
+                    rc.InflationPressure = (double)numInflationPressure.Value;
+                    rc.InletUpperLimit = (double)numInletUpperLimit.Value;
+                    rc.InletLowerLimit = (double)numInletLowerLimit.Value;
+                    rc.LeakThreshold = (double)numLeakThreshold.Value;
+                    rc.LeakLowerLimit = (double)numLeakLowerLimit.Value;
+                    SaveRecipes();
+                    RefreshRecipeList();
+                    MessageBox.Show("配方已保存");
+                }
+            };
+
+            // 切换配方时加载数据到控件
+            lstRecipes.SelectedIndexChanged += (s, e) =>
+            {
+                if (lstRecipes.SelectedItem is RecipeConfig rc)
+                {
+                    numInflationTime.Value = rc.InflationTime;
+                    numStabilizationTime.Value = rc.StabilizationTime;
+                    numTestTime.Value = rc.TestTime;
+                    numExhaustTime.Value = rc.ExhaustTime;
+                    numInflationPressure.Value = (decimal)rc.InflationPressure;
+                    numInletUpperLimit.Value = (decimal)rc.InletUpperLimit;
+                    numInletLowerLimit.Value = (decimal)rc.InletLowerLimit;
+                    numLeakThreshold.Value = (decimal)rc.LeakThreshold;
+                    numLeakLowerLimit.Value = (decimal)rc.LeakLowerLimit;
+                }
+            };
+        }
+
 
         // ========== 仪器调试页绑定 ==========
         private void BindDebugPage()
@@ -388,7 +531,7 @@ namespace TanGe
                         txtDataPath.Text = dlg.SelectedPath;
                 }
             };
-
+            //保存//
             btnSaveSettings.Click += (s, e) =>
             {
                 _config.MesUrl = txtMesUrl.Text.Trim();
@@ -523,6 +666,7 @@ namespace TanGe
 
         // ========== 简单配置读写 ==========
         private string ConfigPath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
+        private string RecipeFilePath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "recipes.json");
 
         private AppConfig LoadConfig()
         {

@@ -20,8 +20,14 @@ namespace Airtightness.MES
 
         // MES 服务器的基础地址。在真实项目中，这个地址应该来自配置文件而不是硬编码。
         // 我们暂时使用之前在 Postman 中创建的模拟服务器地址。
-        private readonly string _baseUrl = "https://xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.mock.pstmn.io"; // <-- 请替换为您自己的Postman Mock URL
+        private readonly string _baseUrl;
 
+        // 改构造函数，运行时传入 URL
+        public MesService(string baseUrl)
+        {
+            _baseUrl = baseUrl?.TrimEnd('/') ?? string.Empty;
+            client.Timeout = TimeSpan.FromSeconds(10);
+        }
         public MesService()
         {
             // 可以设置默认的请求头，例如API密钥（如果需要）

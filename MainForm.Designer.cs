@@ -39,8 +39,6 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageTest = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.workstationView2 = new Airtightness.WinForms.Controls.WorkstationView();
-            this.workstationView1 = new Airtightness.WinForms.Controls.WorkstationView();
             this.tabPageParams = new System.Windows.Forms.TabPage();
             this.RecipeDetails = new System.Windows.Forms.Panel();
             this.numLeakLowerLimit = new System.Windows.Forms.NumericUpDown();
@@ -87,20 +85,29 @@
             this.txtConnectionString = new System.Windows.Forms.TextBox();
             this.lblConnection = new System.Windows.Forms.Label();
             this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.grbStation = new System.Windows.Forms.GroupBox();
+            this.btnTestStation2Conn = new System.Windows.Forms.Button();
+            this.btnTestStation1Conn = new System.Windows.Forms.Button();
+            this.txtStation2Conn = new System.Windows.Forms.TextBox();
+            this.cmbStation2Type = new System.Windows.Forms.ComboBox();
+            this.lblStation2 = new System.Windows.Forms.Label();
+            this.txtStation1Conn = new System.Windows.Forms.TextBox();
+            this.cmbStation1Type = new System.Windows.Forms.ComboBox();
+            this.lblStation1 = new System.Windows.Forms.Label();
             this.btnSaveSettings = new System.Windows.Forms.Button();
             this.grpGeneral = new System.Windows.Forms.GroupBox();
             this.cmbTheme = new System.Windows.Forms.ComboBox();
             this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.lblTheme = new System.Windows.Forms.Label();
             this.lblLanguage = new System.Windows.Forms.Label();
-            this.grpStorage = new System.Windows.Forms.GroupBox();
-            this.btnBrowsePath = new System.Windows.Forms.Button();
-            this.txtDataPath = new System.Windows.Forms.TextBox();
-            this.lblDataPath = new System.Windows.Forms.Label();
             this.grpMES = new System.Windows.Forms.GroupBox();
             this.chkEnableMes = new System.Windows.Forms.CheckBox();
             this.txtMesUrl = new System.Windows.Forms.TextBox();
             this.lblMesUrl = new System.Windows.Forms.Label();
+            this.grpStorage = new System.Windows.Forms.GroupBox();
+            this.btnBrowsePath = new System.Windows.Forms.Button();
+            this.txtDataPath = new System.Windows.Forms.TextBox();
+            this.lblDataPath = new System.Windows.Forms.Label();
             this.tabPageHistory = new System.Windows.Forms.TabPage();
             this.btnClearHistory = new System.Windows.Forms.Button();
             this.btnExportExcel = new System.Windows.Forms.Button();
@@ -113,15 +120,8 @@
             this.lblToDate = new System.Windows.Forms.Label();
             this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
             this.lblFromDate = new System.Windows.Forms.Label();
-            this.grbStation = new System.Windows.Forms.GroupBox();
-            this.cmbStation1Type = new System.Windows.Forms.ComboBox();
-            this.lblStation1 = new System.Windows.Forms.Label();
-            this.txtStation1Conn = new System.Windows.Forms.TextBox();
-            this.txtStation2Conn = new System.Windows.Forms.TextBox();
-            this.cmbStation2Type = new System.Windows.Forms.ComboBox();
-            this.lblStation2 = new System.Windows.Forms.Label();
-            this.btnTestStation1Conn = new System.Windows.Forms.Button();
-            this.btnTestStation2Conn = new System.Windows.Forms.Button();
+            this.workstationView2 = new Airtightness.WinForms.Controls.WorkstationView();
+            this.workstationView1 = new Airtightness.WinForms.Controls.WorkstationView();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl.SuspendLayout();
@@ -143,13 +143,13 @@
             this.grpManual.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabPageSettings.SuspendLayout();
+            this.grbStation.SuspendLayout();
             this.grpGeneral.SuspendLayout();
-            this.grpStorage.SuspendLayout();
             this.grpMES.SuspendLayout();
+            this.grpStorage.SuspendLayout();
             this.tabPageHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
             this.gbSearchHistory.SuspendLayout();
-            this.grbStation.SuspendLayout();
             this.SuspendLayout();
             // 
             // Title
@@ -254,10 +254,10 @@
             this.tabPageTest.Controls.Add(this.richTextBox1);
             this.tabPageTest.Controls.Add(this.workstationView2);
             this.tabPageTest.Controls.Add(this.workstationView1);
-            this.tabPageTest.Location = new System.Drawing.Point(4, 28);
+            this.tabPageTest.Location = new System.Drawing.Point(4, 22);
             this.tabPageTest.Name = "tabPageTest";
             this.tabPageTest.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTest.Size = new System.Drawing.Size(1576, 987);
+            this.tabPageTest.Size = new System.Drawing.Size(1576, 993);
             this.tabPageTest.TabIndex = 0;
             this.tabPageTest.Text = "测试界面";
             this.tabPageTest.UseVisualStyleBackColor = true;
@@ -270,40 +270,16 @@
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
-            // workstationView2
-            // 
-            this.workstationView2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.workstationView2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.workstationView2.BarcodeText = "";
-            this.workstationView2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.workstationView2.Location = new System.Drawing.Point(872, 4);
-            this.workstationView2.Margin = new System.Windows.Forms.Padding(4);
-            this.workstationView2.Name = "workstationView2";
-            this.workstationView2.Size = new System.Drawing.Size(700, 800);
-            this.workstationView2.TabIndex = 1;
-            // 
-            // workstationView1
-            // 
-            this.workstationView1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.workstationView1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.workstationView1.BarcodeText = "";
-            this.workstationView1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.workstationView1.Location = new System.Drawing.Point(0, 4);
-            this.workstationView1.Margin = new System.Windows.Forms.Padding(4);
-            this.workstationView1.Name = "workstationView1";
-            this.workstationView1.Size = new System.Drawing.Size(700, 800);
-            this.workstationView1.TabIndex = 0;
-            // 
             // tabPageParams
             // 
             this.tabPageParams.Controls.Add(this.RecipeDetails);
             this.tabPageParams.Controls.Add(this.btnDeleteRecipe);
             this.tabPageParams.Controls.Add(this.btnNewRecipe);
             this.tabPageParams.Controls.Add(this.lstRecipes);
-            this.tabPageParams.Location = new System.Drawing.Point(4, 28);
+            this.tabPageParams.Location = new System.Drawing.Point(4, 22);
             this.tabPageParams.Name = "tabPageParams";
             this.tabPageParams.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageParams.Size = new System.Drawing.Size(1576, 987);
+            this.tabPageParams.Size = new System.Drawing.Size(1576, 993);
             this.tabPageParams.TabIndex = 1;
             this.tabPageParams.Text = "仪器参数";
             this.tabPageParams.UseVisualStyleBackColor = true;
@@ -334,7 +310,7 @@
             this.RecipeDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RecipeDetails.Location = new System.Drawing.Point(203, 3);
             this.RecipeDetails.Name = "RecipeDetails";
-            this.RecipeDetails.Size = new System.Drawing.Size(1370, 981);
+            this.RecipeDetails.Size = new System.Drawing.Size(1370, 987);
             this.RecipeDetails.TabIndex = 3;
             // 
             // numLeakLowerLimit
@@ -548,7 +524,7 @@
             // 
             this.lstRecipes.Dock = System.Windows.Forms.DockStyle.Left;
             this.lstRecipes.FormattingEnabled = true;
-            this.lstRecipes.ItemHeight = 18;
+            this.lstRecipes.ItemHeight = 12;
             this.lstRecipes.Location = new System.Drawing.Point(3, 3);
             this.lstRecipes.MaximumSize = new System.Drawing.Size(200, 700);
             this.lstRecipes.Name = "lstRecipes";
@@ -561,10 +537,10 @@
             this.tabPageDebug.Controls.Add(this.grpRegister);
             this.tabPageDebug.Controls.Add(this.grpManual);
             this.tabPageDebug.Controls.Add(this.panel3);
-            this.tabPageDebug.Location = new System.Drawing.Point(4, 28);
+            this.tabPageDebug.Location = new System.Drawing.Point(4, 22);
             this.tabPageDebug.Name = "tabPageDebug";
             this.tabPageDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDebug.Size = new System.Drawing.Size(1576, 987);
+            this.tabPageDebug.Size = new System.Drawing.Size(1576, 993);
             this.tabPageDebug.TabIndex = 2;
             this.tabPageDebug.Text = "仪器调试";
             this.tabPageDebug.UseVisualStyleBackColor = true;
@@ -742,7 +718,7 @@
             // 
             this.txtConnectionString.Location = new System.Drawing.Point(287, 26);
             this.txtConnectionString.Name = "txtConnectionString";
-            this.txtConnectionString.Size = new System.Drawing.Size(315, 28);
+            this.txtConnectionString.Size = new System.Drawing.Size(315, 21);
             this.txtConnectionString.TabIndex = 1;
             // 
             // lblConnection
@@ -762,13 +738,104 @@
             this.tabPageSettings.Controls.Add(this.grpGeneral);
             this.tabPageSettings.Controls.Add(this.grpMES);
             this.tabPageSettings.Controls.Add(this.grpStorage);
-            this.tabPageSettings.Location = new System.Drawing.Point(4, 28);
+            this.tabPageSettings.Location = new System.Drawing.Point(4, 22);
             this.tabPageSettings.Name = "tabPageSettings";
             this.tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSettings.Size = new System.Drawing.Size(1576, 987);
+            this.tabPageSettings.Size = new System.Drawing.Size(1576, 993);
             this.tabPageSettings.TabIndex = 3;
             this.tabPageSettings.Text = "软件设置";
             this.tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // grbStation
+            // 
+            this.grbStation.Controls.Add(this.btnTestStation2Conn);
+            this.grbStation.Controls.Add(this.btnTestStation1Conn);
+            this.grbStation.Controls.Add(this.txtStation2Conn);
+            this.grbStation.Controls.Add(this.cmbStation2Type);
+            this.grbStation.Controls.Add(this.lblStation2);
+            this.grbStation.Controls.Add(this.txtStation1Conn);
+            this.grbStation.Controls.Add(this.cmbStation1Type);
+            this.grbStation.Controls.Add(this.lblStation1);
+            this.grbStation.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grbStation.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.grbStation.Location = new System.Drawing.Point(3, 438);
+            this.grbStation.Name = "grbStation";
+            this.grbStation.Size = new System.Drawing.Size(1570, 182);
+            this.grbStation.TabIndex = 7;
+            this.grbStation.TabStop = false;
+            this.grbStation.Text = "工位连接设置";
+            // 
+            // btnTestStation2Conn
+            // 
+            this.btnTestStation2Conn.Location = new System.Drawing.Point(811, 95);
+            this.btnTestStation2Conn.Name = "btnTestStation2Conn";
+            this.btnTestStation2Conn.Size = new System.Drawing.Size(102, 34);
+            this.btnTestStation2Conn.TabIndex = 10;
+            this.btnTestStation2Conn.Text = "连接";
+            this.btnTestStation2Conn.UseVisualStyleBackColor = true;
+            // 
+            // btnTestStation1Conn
+            // 
+            this.btnTestStation1Conn.Location = new System.Drawing.Point(811, 45);
+            this.btnTestStation1Conn.Name = "btnTestStation1Conn";
+            this.btnTestStation1Conn.Size = new System.Drawing.Size(102, 34);
+            this.btnTestStation1Conn.TabIndex = 9;
+            this.btnTestStation1Conn.Text = "连接";
+            this.btnTestStation1Conn.UseVisualStyleBackColor = true;
+            // 
+            // txtStation2Conn
+            // 
+            this.txtStation2Conn.Location = new System.Drawing.Point(344, 93);
+            this.txtStation2Conn.Name = "txtStation2Conn";
+            this.txtStation2Conn.Size = new System.Drawing.Size(434, 33);
+            this.txtStation2Conn.TabIndex = 8;
+            // 
+            // cmbStation2Type
+            // 
+            this.cmbStation2Type.FormattingEnabled = true;
+            this.cmbStation2Type.Items.AddRange(new object[] {
+            "TCP",
+            "RTU"});
+            this.cmbStation2Type.Location = new System.Drawing.Point(217, 92);
+            this.cmbStation2Type.Name = "cmbStation2Type";
+            this.cmbStation2Type.Size = new System.Drawing.Size(121, 34);
+            this.cmbStation2Type.TabIndex = 7;
+            // 
+            // lblStation2
+            // 
+            this.lblStation2.AutoSize = true;
+            this.lblStation2.Location = new System.Drawing.Point(123, 95);
+            this.lblStation2.Name = "lblStation2";
+            this.lblStation2.Size = new System.Drawing.Size(62, 26);
+            this.lblStation2.TabIndex = 6;
+            this.lblStation2.Text = "工位2";
+            // 
+            // txtStation1Conn
+            // 
+            this.txtStation1Conn.Location = new System.Drawing.Point(344, 45);
+            this.txtStation1Conn.Name = "txtStation1Conn";
+            this.txtStation1Conn.Size = new System.Drawing.Size(434, 33);
+            this.txtStation1Conn.TabIndex = 5;
+            // 
+            // cmbStation1Type
+            // 
+            this.cmbStation1Type.FormattingEnabled = true;
+            this.cmbStation1Type.Items.AddRange(new object[] {
+            "TCP",
+            "RTU"});
+            this.cmbStation1Type.Location = new System.Drawing.Point(217, 44);
+            this.cmbStation1Type.Name = "cmbStation1Type";
+            this.cmbStation1Type.Size = new System.Drawing.Size(121, 34);
+            this.cmbStation1Type.TabIndex = 4;
+            // 
+            // lblStation1
+            // 
+            this.lblStation1.AutoSize = true;
+            this.lblStation1.Location = new System.Drawing.Point(123, 47);
+            this.lblStation1.Name = "lblStation1";
+            this.lblStation1.Size = new System.Drawing.Size(62, 26);
+            this.lblStation1.TabIndex = 0;
+            this.lblStation1.Text = "工位1";
             // 
             // btnSaveSettings
             // 
@@ -837,46 +904,6 @@
             this.lblLanguage.TabIndex = 0;
             this.lblLanguage.Text = "语言:";
             // 
-            // grpStorage
-            // 
-            this.grpStorage.Controls.Add(this.btnBrowsePath);
-            this.grpStorage.Controls.Add(this.txtDataPath);
-            this.grpStorage.Controls.Add(this.lblDataPath);
-            this.grpStorage.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grpStorage.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.grpStorage.Location = new System.Drawing.Point(3, 3);
-            this.grpStorage.Name = "grpStorage";
-            this.grpStorage.Size = new System.Drawing.Size(1570, 145);
-            this.grpStorage.TabIndex = 1;
-            this.grpStorage.TabStop = false;
-            this.grpStorage.Text = "数据存储设置";
-            // 
-            // btnBrowsePath
-            // 
-            this.btnBrowsePath.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnBrowsePath.Location = new System.Drawing.Point(693, 33);
-            this.btnBrowsePath.Name = "btnBrowsePath";
-            this.btnBrowsePath.Size = new System.Drawing.Size(164, 57);
-            this.btnBrowsePath.TabIndex = 5;
-            this.btnBrowsePath.Text = "浏览";
-            this.btnBrowsePath.UseVisualStyleBackColor = true;
-            // 
-            // txtDataPath
-            // 
-            this.txtDataPath.Location = new System.Drawing.Point(207, 44);
-            this.txtDataPath.Name = "txtDataPath";
-            this.txtDataPath.Size = new System.Drawing.Size(434, 33);
-            this.txtDataPath.TabIndex = 1;
-            // 
-            // lblDataPath
-            // 
-            this.lblDataPath.AutoSize = true;
-            this.lblDataPath.Location = new System.Drawing.Point(47, 47);
-            this.lblDataPath.Name = "lblDataPath";
-            this.lblDataPath.Size = new System.Drawing.Size(131, 26);
-            this.lblDataPath.TabIndex = 0;
-            this.lblDataPath.Text = "数据保存路径:";
-            // 
             // grpMES
             // 
             this.grpMES.Controls.Add(this.chkEnableMes);
@@ -917,16 +944,56 @@
             this.lblMesUrl.TabIndex = 0;
             this.lblMesUrl.Text = "MES服务器地址:";
             // 
+            // grpStorage
+            // 
+            this.grpStorage.Controls.Add(this.btnBrowsePath);
+            this.grpStorage.Controls.Add(this.txtDataPath);
+            this.grpStorage.Controls.Add(this.lblDataPath);
+            this.grpStorage.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpStorage.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.grpStorage.Location = new System.Drawing.Point(3, 3);
+            this.grpStorage.Name = "grpStorage";
+            this.grpStorage.Size = new System.Drawing.Size(1570, 145);
+            this.grpStorage.TabIndex = 1;
+            this.grpStorage.TabStop = false;
+            this.grpStorage.Text = "数据存储设置";
+            // 
+            // btnBrowsePath
+            // 
+            this.btnBrowsePath.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBrowsePath.Location = new System.Drawing.Point(693, 33);
+            this.btnBrowsePath.Name = "btnBrowsePath";
+            this.btnBrowsePath.Size = new System.Drawing.Size(164, 57);
+            this.btnBrowsePath.TabIndex = 5;
+            this.btnBrowsePath.Text = "浏览";
+            this.btnBrowsePath.UseVisualStyleBackColor = true;
+            // 
+            // txtDataPath
+            // 
+            this.txtDataPath.Location = new System.Drawing.Point(207, 44);
+            this.txtDataPath.Name = "txtDataPath";
+            this.txtDataPath.Size = new System.Drawing.Size(434, 33);
+            this.txtDataPath.TabIndex = 1;
+            // 
+            // lblDataPath
+            // 
+            this.lblDataPath.AutoSize = true;
+            this.lblDataPath.Location = new System.Drawing.Point(47, 47);
+            this.lblDataPath.Name = "lblDataPath";
+            this.lblDataPath.Size = new System.Drawing.Size(131, 26);
+            this.lblDataPath.TabIndex = 0;
+            this.lblDataPath.Text = "数据保存路径:";
+            // 
             // tabPageHistory
             // 
             this.tabPageHistory.Controls.Add(this.btnClearHistory);
             this.tabPageHistory.Controls.Add(this.btnExportExcel);
             this.tabPageHistory.Controls.Add(this.dgvHistory);
             this.tabPageHistory.Controls.Add(this.gbSearchHistory);
-            this.tabPageHistory.Location = new System.Drawing.Point(4, 28);
+            this.tabPageHistory.Location = new System.Drawing.Point(4, 22);
             this.tabPageHistory.Name = "tabPageHistory";
             this.tabPageHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageHistory.Size = new System.Drawing.Size(1576, 987);
+            this.tabPageHistory.Size = new System.Drawing.Size(1576, 993);
             this.tabPageHistory.TabIndex = 4;
             this.tabPageHistory.Text = "历史记录";
             this.tabPageHistory.UseVisualStyleBackColor = true;
@@ -1041,96 +1108,29 @@
             this.lblFromDate.TabIndex = 0;
             this.lblFromDate.Text = "开始时间:";
             // 
-            // grbStation
+            // workstationView2
             // 
-            this.grbStation.Controls.Add(this.btnTestStation2Conn);
-            this.grbStation.Controls.Add(this.btnTestStation1Conn);
-            this.grbStation.Controls.Add(this.txtStation2Conn);
-            this.grbStation.Controls.Add(this.cmbStation2Type);
-            this.grbStation.Controls.Add(this.lblStation2);
-            this.grbStation.Controls.Add(this.txtStation1Conn);
-            this.grbStation.Controls.Add(this.cmbStation1Type);
-            this.grbStation.Controls.Add(this.lblStation1);
-            this.grbStation.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grbStation.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.grbStation.Location = new System.Drawing.Point(3, 438);
-            this.grbStation.Name = "grbStation";
-            this.grbStation.Size = new System.Drawing.Size(1570, 182);
-            this.grbStation.TabIndex = 7;
-            this.grbStation.TabStop = false;
-            this.grbStation.Text = "工位连接设置";
+            this.workstationView2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.workstationView2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.workstationView2.BarcodeText = "";
+            this.workstationView2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.workstationView2.Location = new System.Drawing.Point(872, 4);
+            this.workstationView2.Margin = new System.Windows.Forms.Padding(4);
+            this.workstationView2.Name = "workstationView2";
+            this.workstationView2.Size = new System.Drawing.Size(700, 800);
+            this.workstationView2.TabIndex = 1;
             // 
-            // cmbStation1Type
+            // workstationView1
             // 
-            this.cmbStation1Type.FormattingEnabled = true;
-            this.cmbStation1Type.Items.AddRange(new object[] {
-            "TCP",
-            "RTU"});
-            this.cmbStation1Type.Location = new System.Drawing.Point(217, 44);
-            this.cmbStation1Type.Name = "cmbStation1Type";
-            this.cmbStation1Type.Size = new System.Drawing.Size(121, 34);
-            this.cmbStation1Type.TabIndex = 4;
-            // 
-            // lblStation1
-            // 
-            this.lblStation1.AutoSize = true;
-            this.lblStation1.Location = new System.Drawing.Point(123, 47);
-            this.lblStation1.Name = "lblStation1";
-            this.lblStation1.Size = new System.Drawing.Size(62, 26);
-            this.lblStation1.TabIndex = 0;
-            this.lblStation1.Text = "工位1";
-            // 
-            // txtStation1Conn
-            // 
-            this.txtStation1Conn.Location = new System.Drawing.Point(344, 45);
-            this.txtStation1Conn.Name = "txtStation1Conn";
-            this.txtStation1Conn.Size = new System.Drawing.Size(434, 33);
-            this.txtStation1Conn.TabIndex = 5;
-            // 
-            // txtStation2Conn
-            // 
-            this.txtStation2Conn.Location = new System.Drawing.Point(344, 93);
-            this.txtStation2Conn.Name = "txtStation2Conn";
-            this.txtStation2Conn.Size = new System.Drawing.Size(434, 33);
-            this.txtStation2Conn.TabIndex = 8;
-            // 
-            // cmbStation2Type
-            // 
-            this.cmbStation2Type.FormattingEnabled = true;
-            this.cmbStation2Type.Items.AddRange(new object[] {
-            "TCP",
-            "RTU"});
-            this.cmbStation2Type.Location = new System.Drawing.Point(217, 92);
-            this.cmbStation2Type.Name = "cmbStation2Type";
-            this.cmbStation2Type.Size = new System.Drawing.Size(121, 34);
-            this.cmbStation2Type.TabIndex = 7;
-            // 
-            // lblStation2
-            // 
-            this.lblStation2.AutoSize = true;
-            this.lblStation2.Location = new System.Drawing.Point(123, 95);
-            this.lblStation2.Name = "lblStation2";
-            this.lblStation2.Size = new System.Drawing.Size(62, 26);
-            this.lblStation2.TabIndex = 6;
-            this.lblStation2.Text = "工位2";
-            // 
-            // btnTestStation1Conn
-            // 
-            this.btnTestStation1Conn.Location = new System.Drawing.Point(811, 45);
-            this.btnTestStation1Conn.Name = "btnTestStation1Conn";
-            this.btnTestStation1Conn.Size = new System.Drawing.Size(102, 34);
-            this.btnTestStation1Conn.TabIndex = 9;
-            this.btnTestStation1Conn.Text = "连接";
-            this.btnTestStation1Conn.UseVisualStyleBackColor = true;
-            // 
-            // btnTestStation2Conn
-            // 
-            this.btnTestStation2Conn.Location = new System.Drawing.Point(811, 95);
-            this.btnTestStation2Conn.Name = "btnTestStation2Conn";
-            this.btnTestStation2Conn.Size = new System.Drawing.Size(102, 34);
-            this.btnTestStation2Conn.TabIndex = 10;
-            this.btnTestStation2Conn.Text = "连接";
-            this.btnTestStation2Conn.UseVisualStyleBackColor = true;
+            this.workstationView1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.workstationView1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.workstationView1.BarcodeText = "";
+            this.workstationView1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.workstationView1.Location = new System.Drawing.Point(0, 4);
+            this.workstationView1.Margin = new System.Windows.Forms.Padding(4);
+            this.workstationView1.Name = "workstationView1";
+            this.workstationView1.Size = new System.Drawing.Size(700, 800);
+            this.workstationView1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -1168,18 +1168,18 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tabPageSettings.ResumeLayout(false);
+            this.grbStation.ResumeLayout(false);
+            this.grbStation.PerformLayout();
             this.grpGeneral.ResumeLayout(false);
             this.grpGeneral.PerformLayout();
-            this.grpStorage.ResumeLayout(false);
-            this.grpStorage.PerformLayout();
             this.grpMES.ResumeLayout(false);
             this.grpMES.PerformLayout();
+            this.grpStorage.ResumeLayout(false);
+            this.grpStorage.PerformLayout();
             this.tabPageHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
             this.gbSearchHistory.ResumeLayout(false);
             this.gbSearchHistory.PerformLayout();
-            this.grbStation.ResumeLayout(false);
-            this.grbStation.PerformLayout();
             this.ResumeLayout(false);
 
         }

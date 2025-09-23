@@ -1,5 +1,6 @@
 ﻿using Airtightness.Core.Enums;
 using ScottPlot;          // ScottPlot 核心库
+using ScottPlot.Styles;
 using ScottPlot.WinForms; // WinForms 控件版本
 using System;
 using System.Drawing;
@@ -31,6 +32,12 @@ namespace Airtightness.WinForms.Controls
 
         /// <summary>点击清空统计按钮</summary>
         public event EventHandler ClearStatsRequested;
+
+        /// <summary>Enter输入SN</summary>
+        public event Action<string> BarcodeEntered;
+
+        /// <summary>点击断开按钮</summary>
+        public event EventHandler DisconnectRequested;
 
         #endregion
 
@@ -85,12 +92,13 @@ namespace Airtightness.WinForms.Controls
                 lblCommStatus.BeginInvoke(new Action(() =>
                 {
                     lblCommStatus.Text = text;
-                    lblCommStatus.ForeColor = color;
+                    lblCommStatus.BackColor = color;
+                    
                 }));
             else
             {
                 lblCommStatus.Text = text;
-                lblCommStatus.ForeColor = color;
+                lblCommStatus.BackColor = color;
             }
         }
 
@@ -166,6 +174,10 @@ namespace Airtightness.WinForms.Controls
         {
             try { StopRequested?.Invoke(this, EventArgs.Empty); } catch { }
         }
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            DisconnectRequested?.Invoke(this, EventArgs.Empty);
+        }
 
         private void btnClearStats_Click(object sender, EventArgs e)
         {
@@ -185,6 +197,20 @@ namespace Airtightness.WinForms.Controls
         #endregion
 
         #region ==== 私有方法 ====
+        private void txtBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string barcode = txtBarcode.Text.Trim();
+                if (!string.IsNullOrEmpty(barcode))
+                {
+                    BarcodeEntered?.Invoke(barcode);
+                }
+                e.Handled = true;
+                e.SuppressKeyPress = true; // 防止输完回车响铃
+            }
+        }
+
 
         /// <summary>更新统计文本</summary>
         private void UpdateStatsText(int total, int ok, int ng)
@@ -255,16 +281,19 @@ namespace Airtightness.WinForms.Controls
             plotYieldChart.Refresh();
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
         #endregion
-
-       
-
-       
-        
-
-       
-
-        
 
         
     }
