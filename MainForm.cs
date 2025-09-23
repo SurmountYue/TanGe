@@ -106,7 +106,10 @@ namespace TanGe
             _wsPresenter1.CommunicationLogGenerated += (type, msg) => AppendGlobalLog($"[{type}] {msg}");
             _wsPresenter1.RealtimeDataUpdated += (leak, press, temp) => workstationView1.UpdateRealtimeData(leak, press, temp);
             _wsPresenter1.StatisticsUpdated += (tot, ok, ng) => workstationView1.UpdateStatistics(tot, ok, ng);
-
+            _wsPresenter1.CommStatusChanged += (txt, colorName) =>
+            {
+                workstationView1.UpdateCommStatus(txt, System.Drawing.Color.FromName(colorName));
+            };
             // 绑定工位2事件到 WorkstationView2
             _wsPresenter2.StateChanged += (state, msg) => workstationView2.UpdateStatus(msg, StateColor(state));
             _wsPresenter2.LogMessageGenerated += (line) =>
@@ -126,6 +129,10 @@ namespace TanGe
             workstationView2.StartRequested += async (s, e) => await _wsPresenter2.StartTestAsync();
             workstationView2.StopRequested += (s, e) => _wsPresenter2.StopTest();
             workstationView2.ClearStatsRequested += (s, e) => { /* TODO: 同上 */ };
+            _wsPresenter2.CommStatusChanged += (txt, colorName) =>
+            {
+                workstationView2.UpdateCommStatus(txt, System.Drawing.Color.FromName(colorName));
+            };
 
             // 初始化设备连接（连接字符串可来自 Settings 页）
             // 如果你在 Settings 保存了连接参数，可替换如下 "127.0.0.1:502"
@@ -275,30 +282,45 @@ namespace TanGe
             // 工位1连接按钮
             btnTestStation1Conn.Click += async (s, e) =>
             {
+                string type = cmbStation1Type.Text;
+                string connStr = txtStation1Conn.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(connStr))
+                {
+                    MessageBox.Show("请输入工位1连接参数");
+                    return;
+                }
                 try
                 {
-                    if (_ws1Connected)
+       
+                    if (_wsPresenter1 == null)
                     {
-                        MessageBox.Show("工位1已连接");
-                        return;
+                        var mes = new MesService();
+                        var instrument = BuildInstrument(type);
+                        _wsPresenter1 = new WorkstationPresenter("工位1", instrument, mes);
+
+                        // 重要：重新绑定事件到 WorkstationView1
+                        _wsPresenter1.StateChanged += (state, msg) => workstationView1.UpdateStatus(msg, StateColor(state));
+                        _wsPresenter1.LogMessageGenerated += (line) => { workstationView1.AppendLog(line); AppendGlobalLog(line); };
+                        _wsPresenter1.CommunicationLogGenerated += (type2, msg) => AppendGlobalLog($"[{type2}] {msg}");
+                        _wsPresenter1.RealtimeDataUpdated += (leak, press, temp) => workstationView1.UpdateRealtimeData(leak, press, temp);
+                        _wsPresenter1.StatisticsUpdated += (tot, ok, ng) => workstationView1.UpdateStatistics(tot, ok, ng);
                     }
 
-                    string type = cmbStation1Type.Text;
-                    string connStr = txtStation1Conn.Text.Trim();
-
-                    if (string.IsNullOrWhiteSpace(connStr))
-                    {
-                        MessageBox.Show("请输入工位1连接参数");
-                        return;
-                    }
-
-                    var instrument1 = BuildInstrument(type);
-                    _wsPresenter1 = new WorkstationPresenter("工位1", instrument1, new Airtightness.MES.MesService());
 
                     await _wsPresenter1.InitializeAsync(connStr);
                     _ws1Connected = true;
+                    if (_wsPresenter1.CurrentState == WorkstationState.Idle)
+                    {
+                        _ws1Connected = true;
+                        MessageBox.Show("工位1连接成功");
+                    }
+                    else
+                    {
+                        _ws1Connected = false;
+                        MessageBox.Show("工位1连接失败，请检查地址或设备");
+                    }
 
-                    MessageBox.Show("工位1连接成功");
                 }
                 catch (Exception ex)
                 {
@@ -311,11 +333,6 @@ namespace TanGe
             {
                 try
                 {
-                    if (_ws2Connected)
-                    {
-                        MessageBox.Show("工位2已连接");
-                        return;
-                    }
 
                     string type = cmbStation2Type.Text;
                     string connStr = txtStation2Conn.Text.Trim();
@@ -326,16 +343,37 @@ namespace TanGe
                         return;
                     }
 
-                    var instrument2 = BuildInstrument(type);
-                    _wsPresenter2 = new WorkstationPresenter("工位2", instrument2, new Airtightness.MES.MesService());
+                    if (_wsPresenter2 == null)
+                    {
+                        var mes = new MesService();
+                        var instrument = BuildInstrument(type);
+                        _wsPresenter2 = new WorkstationPresenter("工位2", instrument, mes);
+
+                        _wsPresenter2.StateChanged += (state, msg) => workstationView2.UpdateStatus(msg, StateColor(state));
+                        _wsPresenter2.LogMessageGenerated += (line) => { workstationView2.AppendLog(line); AppendGlobalLog(line); };
+                        _wsPresenter2.CommunicationLogGenerated += (type2, msg) => AppendGlobalLog($"[{type2}] {msg}");
+                        _wsPresenter2.RealtimeDataUpdated += (leak, press, temp) => workstationView2.UpdateRealtimeData(leak, press, temp);
+                        _wsPresenter2.StatisticsUpdated += (tot, ok, ng) => workstationView2.UpdateStatistics(tot, ok, ng);
+                    }
 
                     await _wsPresenter2.InitializeAsync(connStr);
-                    _ws2Connected = true;
 
-                    MessageBox.Show("工位2连接成功");
+                    if (_wsPresenter2.CurrentState == WorkstationState.Idle)
+                    {
+                        _ws2Connected = true;
+                        MessageBox.Show("工位2连接成功");
+                    }
+                    else
+                    {
+                        _ws2Connected = false;
+                        MessageBox.Show("工位2连接失败，请检查地址或设备");
+
+
+                    }
                 }
                 catch (Exception ex)
                 {
+                    _ws2Connected = false;
                     MessageBox.Show("工位2连接失败: " + ex.Message);
                 }
             };

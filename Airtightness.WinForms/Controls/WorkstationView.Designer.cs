@@ -307,6 +307,7 @@
             this.btnStart.TabIndex = 48;
             this.btnStart.Text = "开始";
             this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnStop
             // 
@@ -321,6 +322,7 @@
             this.btnStop.TabIndex = 50;
             this.btnStop.Text = "停止";
             this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // lblTotal
             // 
@@ -359,6 +361,7 @@
             this.btnClearStats.TabIndex = 59;
             this.btnClearStats.Text = "产品清零";
             this.btnClearStats.UseVisualStyleBackColor = false;
+            this.btnClearStats.Click += new System.EventHandler(this.btnClearStats_Click);
             // 
             // lblNG
             // 
