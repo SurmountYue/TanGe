@@ -17,12 +17,13 @@ namespace Airtightness.MES
     {
         // 最佳实践：HttpClient 在整个应用程序中应该是静态且共享的，以避免套接字耗尽。
         private static readonly HttpClient client = new HttpClient();
+        public event Action<string> DebugLog;
 
         // MES 服务器的基础地址。在真实项目中，这个地址应该来自配置文件而不是硬编码。
         // 我们暂时使用之前在 Postman 中创建的模拟服务器地址。
         private readonly string _baseUrl;
 
-        // 改构造函数，运行时传入 URL
+        // 运行时传入 URL
         public MesService(string baseUrl)
         {
             _baseUrl = baseUrl?.TrimEnd('/') ?? string.Empty;
@@ -41,7 +42,11 @@ namespace Airtightness.MES
             // 1. 准备请求的完整URL和请求体(payload)
             string requestUri = $"{_baseUrl}/WebAPI/Base/CheckSN";
             var requestPayload = new SnCheckRequest { SN = sn, WorkStation = workstation };
-
+            // ✅ 新增调试日志
+            Console.WriteLine($"[MES] 校验SN URL: {requestUri}");
+            Console.WriteLine($"[MES] 校验SN Payload: {JsonConvert.SerializeObject(requestPayload)}");
+            DebugLog?.Invoke($"[MES] 校验SN URL: {requestUri}");
+            DebugLog?.Invoke($"[MES] 校验SN Payload: {JsonConvert.SerializeObject(requestPayload)}");
             // 2. 将C#对象序列化为JSON字符串
             string jsonPayload = JsonConvert.SerializeObject(requestPayload);
             var httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
@@ -56,6 +61,10 @@ namespace Airtightness.MES
 
                 // 5. 异步读取响应内容
                 string responseBody = await response.Content.ReadAsStringAsync();
+                // ✅ 新增返回日志
+                Console.WriteLine($"[MES] 校验SN 返回: {responseBody}");
+                DebugLog?.Invoke($"[MES] 校验SN 返回: {responseBody}");
+
 
                 // 6. 将JSON响应字符串反序列化为C#的ApiResponse对象
                 return JsonConvert.DeserializeObject<ApiResponse>(responseBody);
@@ -71,6 +80,11 @@ namespace Airtightness.MES
         public async Task<ApiResponse> UploadTestResultAsync(TestDataUploadRequest testResult)
         {
             string requestUri = $"{_baseUrl}/WebAPI/Test/ReciveTestData";
+            // ✅ 新增调试日志
+            Console.WriteLine($"[MES] 上传结果 URL: {requestUri}");
+            Console.WriteLine($"[MES] 上传结果 Payload: {JsonConvert.SerializeObject(testResult)}");
+            DebugLog?.Invoke($"[MES] 上传结果 URL: {requestUri}");
+            DebugLog?.Invoke($"[MES] 上传结果 Payload: {JsonConvert.SerializeObject(testResult)}");
             string jsonPayload = JsonConvert.SerializeObject(testResult);
             var httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
@@ -79,6 +93,9 @@ namespace Airtightness.MES
                 HttpResponseMessage response = await client.PostAsync(requestUri, httpContent);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
+                // ✅ 新增返回日志
+                Console.WriteLine($"[MES] 上传结果 返回: {responseBody}");
+                DebugLog?.Invoke($"[MES] 上传结果 返回: {responseBody}");
                 return JsonConvert.DeserializeObject<ApiResponse>(responseBody);
             }
             catch (Exception ex)

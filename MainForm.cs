@@ -89,6 +89,7 @@ namespace TanGe
             // 这里用配置创建 MES 服务；
             
             var mes = new MesService(_config.MesUrl); // 从设置读取 URL
+            mes.DebugLog += (log) => AppendGlobalLog(log); // 输出到全局日志
 
             // 工位1/工位2 使用 Modbus TCP（如需RTU，根据Settings选择不同实现）
             var instr1 = new ModbusInstrument();
@@ -544,6 +545,7 @@ namespace TanGe
                 {
                     SaveConfig(_config);
                     MessageBox.Show("设置已保存");
+                    
                 }
                 catch (Exception ex)
                 {
